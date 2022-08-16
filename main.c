@@ -1,3 +1,12 @@
+/**
+ * main.c
+ *
+ * Demonstrates the use of the array type.
+ *
+ * Author: Richard Gale
+ * Version: 16th August, 2022
+ */
+
 #include <stdio.h>
 
 #include "array.h"
