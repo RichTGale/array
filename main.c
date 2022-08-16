@@ -11,7 +11,7 @@
 
 #include "array.h"
 
-int main(int argc, char* argv)
+int main(int argc, char* argv[])
 {
     array storage;  // The array.
     char* data_to_store = "MyData"; // The data we're going to store in the array.
