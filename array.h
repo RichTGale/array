@@ -6,7 +6,7 @@
  * and frees memory as elements are added to it and removed from it.
  *
  * Author: Richard Gale
- * Version: 16th August, 2022
+ * Version: 23rd August, 2022
  */
 
 #ifndef ARRAY_H

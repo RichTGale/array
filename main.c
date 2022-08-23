@@ -4,7 +4,7 @@
  * Demonstrates the use of the array type.
  *
  * Author: Richard Gale
- * Version: 16th August, 2022
+ * Version: 23rd August, 2022
  */
 
 #include <stdio.h>
