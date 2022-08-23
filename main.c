@@ -13,9 +13,10 @@
 
 int main(int argc, char* argv[])
 {
-    array storage;  // The array.
-    char* data_to_store = "MyData"; // The data we're going to store in the array.
-    int num_elems = sizeof(data_to_store) / sizeof(char);   // The number of elements in the data.
+    array storage;          // The array.
+    char* data = "MyData";  // The data to store.
+    // The number of elements of the data.
+    int num_elems = sizeof(data) / sizeof(char);
 
     // Initialising the array.
     array_init(&storage);
@@ -23,7 +24,7 @@ int main(int argc, char* argv[])
     // Adding the data to the array.
     for (int i = 0; i < num_elems; i++)
     {
-        array_push_back(&storage, &(data_to_store[i]));
+        array_push_back(&storage, &(data[i]));
     }
 
     // Printing the data in the array.
