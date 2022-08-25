@@ -15,35 +15,41 @@ int main(int argc, char* argv[])
 {
     array storage;          // The array.
     char* data = "MyData";  // The data to store.
-    // The number of elements of the data.
-    int num_elems = sizeof(data) / sizeof(char);
+    uint32_t num_elems;     // The number of elements of the data.
+    uint32_t elem;          // The index of the current element of the array.
 
     // Initialising the array.
     array_init(&storage);
 
+    // Initialisation of the number of elements in the data.
+    num_elems = sizeof(data) / sizeof(char);
+
     // Adding the data to the array.
-    for (int i = 0; i < num_elems; i++)
+    for (elem = 0; elem < num_elems; elem++)
     {
-        array_push_back(&storage, &(data[i]));
+        array_push_back(&storage, &(data[elem]));
     }
 
     // Printing the data in the array.
-    for (int i = 0; i < array_size(storage); i++)
+    for (elem = 0; elem < array_size(storage); elem++)
     {
-        printf("%c", *((char*) array_get_data(storage, i)));
+        // Printing the current element.
+        printf("%c", *((char*) array_get_data(storage, elem)));
     }
     printf("\n");
 
     // Removing the data from the first element to the last and
     // printing it in that order.
-    for (int i = 0; i < num_elems; i++)
+    while (array_size(storage) > 0)
     {
+        // Removing and printing the last element in the array.
         printf("%c", *((char*) array_pop_back(&storage)));
     }
     printf("\n");
 
-    // Freeing memory
+    // Freeing memory.
     array_free(&storage);
 
+    // Exiting the program.
     return 0;
 }

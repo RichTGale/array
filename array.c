@@ -1,18 +1,24 @@
 /**
  * array.c
  *
- * Data-structure and procedure definitions for a
- * singly-linked-list, an array that dynamically allocates 
- * and frees memory as elements are added to it and removed from it.
+ * Data-structure and procedure definitions for a singly-linked-list:
+ * an array that dynamically allocates and frees memory as elements
+ * are added to it and removed from it.
  *
  * Author: Richard Gale
- * Version: 23rd August, 2022
+ * Version: 25th August, 2022
  */
 
+// Including file(s).
 #include "array.h"
 
+// Error codes.
 #define INDEX_OUT_OF_BOUNDS_ERROR 1
 #define EMPTY_LIST_ERROR 2
+#define CAPACITY_OVERLOAD_ERROR 3
+
+// The maximum number of elements the array can have.
+#define MAX_CAPACITY UINT32_MAX
 
 /**
  * Data contained in the array data-structure
@@ -57,9 +63,11 @@ void array_free(array* a_ref)
  * Returns the data in the provided array at the element
  * at the provided index.
  */ 
-void* array_get_data(array head, int index)
+void* array_get_data(array head, uint32_t index)
 {
-	for (int i = 0; i < index; i++)
+	uint32_t elem; // The current element of the array. 
+
+	for (elem = 0; elem < index; elem++)
 	{
 		if (head->next != NULL)
 		{
@@ -68,8 +76,8 @@ void* array_get_data(array head, int index)
 		{
 			printf(
 				"\nERROR: In function array_get_data(): "
-				"index %d out of bounds!", 
-				i + 1
+				"index %d was out of bounds!\n", 
+				elem + 1
 			);
 			exit(INDEX_OUT_OF_BOUNDS_ERROR);
 		}
@@ -80,9 +88,9 @@ void* array_get_data(array head, int index)
 /**
  * Returns the number of elements in the provided array.
  */
-int array_size(array head)
+uint32_t array_size(array head)
 {
-    int size = 0; // The number of elements in the array
+    uint32_t size = 0; // The number of elements in the array
 
 	if (head->data != NULL)
 	{
@@ -121,11 +129,10 @@ void* array_pop_front(array* head_ref)
 	{
 		printf(
 			"\nERROR: In function arrary_pop_front: "
-			"Attempting to pop front of empty array!\n"
+			"Attempted to pop front of an empty array!\n"
 		);
 		exit(EMPTY_LIST_ERROR);
 	}
-
 	return front;
 }
 
@@ -136,7 +143,7 @@ void* array_pop_front(array* head_ref)
 void* array_pop_back(array* head_ref)
 {
 	void* back;		// The data contained in the back element
-	int size;		// The number of elements in the array
+	uint32_t size;		// The number of elements in the array
 
 	size = array_size(*head_ref);
 
@@ -162,7 +169,7 @@ void* array_pop_back(array* head_ref)
 	{
 		printf(
 			"\nERROR: In function array_pop_back: "
-			"Attempting to pop back of empty array!\n"
+			"Attempted to pop back of empty array!\n"
 		);
 		exit(EMPTY_LIST_ERROR);
 	}
@@ -183,10 +190,21 @@ void array_push_front(array* head_ref, void* data)
 		(*head_ref)->data = data;
 	} else
 	{
-		array_init(&new);
-		new->data = data;
-		new->next = *head_ref;
-		*head_ref = new;
+		if (array_size(*head_ref) < MAX_CAPACITY)
+		{
+			array_init(&new);
+			new->data = data;
+			new->next = *head_ref;
+			*head_ref = new;
+		}
+		else
+		{
+			printf(
+				"\nERROR: In function array_push_front(): "
+				"Attempted to push an element into a full array!\n"
+			);
+			exit(CAPACITY_OVERLOAD_ERROR);
+		}
 	}
 }
 
@@ -202,12 +220,23 @@ void array_push_back(array* head_ref, void* data)
 	}
 	else
 	{
-		while ((*head_ref)->next != NULL)
+		if (array_size(*head_ref) < MAX_CAPACITY)
 		{
-			head_ref = &(*head_ref)->next;
+			while ((*head_ref)->next != NULL)
+			{
+				head_ref = &(*head_ref)->next;
+			}
+			array_init(&(*head_ref)->next);
+			(*head_ref)->next->data = data;
 		}
-		array_init(&(*head_ref)->next);
-		(*head_ref)->next->data = data;
+		else
+		{
+			printf(
+				"\nERROR: In function array_push_back(): "
+				"Attempted to push an element into a full array!\n"
+			);
+			exit(CAPACITY_OVERLOAD_ERROR);
+		}
 	}
 }
 
@@ -215,9 +244,9 @@ void array_push_back(array* head_ref, void* data)
  * Sets the data in the element at the provided index of the
  * array at the provided array reference.
  */
-void array_set_data(array* head_ref, int index, void* data)
+void array_set_data(array* head_ref, uint32_t index, void* data)
 {
-	for (int i = 0; i < index; i++)
+	for (uint32_t i = 0; i < index; i++)
 	{
 		if ((*head_ref)->next != NULL)
 		{
