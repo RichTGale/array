@@ -1,12 +1,12 @@
 /**
  * array.h
  *
- * Data-structure and procedure declarations for a singly-linked-list: 
+ * Data-structure and procedure declarations for a singly-linked-list, 
  * an array that dynamically allocates and frees memory as elements 
  * are added to it and removed from it.
  *
  * Author: Richard Gale
- * Version: 25th August, 2022
+ * Version: 26th August, 2022
  */
 
 #ifndef ARRAY_H
@@ -55,6 +55,11 @@ void* array_pop_front(array* head_ref);
  * reference and returns it.
  */
 void* array_pop_back(array* head_ref);
+
+/**
+ * Removes the element at the provided index and returns it.
+ */
+void* array_pop_data(array* head_ref, uint32_t index);
 
 /**
  * Adds a new element to the beginning of the array at

@@ -1,24 +1,18 @@
 /**
  * array.c
  *
- * Data-structure and procedure definitions for a singly-linked-list:
+ * Data-structure and procedure definitions for a singly-linked-list, 
  * an array that dynamically allocates and frees memory as elements
  * are added to it and removed from it.
  *
  * Author: Richard Gale
- * Version: 25th August, 2022
+ * Version: 26th August, 2022
  */
 
-// Including file(s).
 #include "array.h"
 
-// Error codes.
 #define INDEX_OUT_OF_BOUNDS_ERROR 1
 #define EMPTY_LIST_ERROR 2
-#define CAPACITY_OVERLOAD_ERROR 3
-
-// The maximum number of elements the array can have.
-#define MAX_CAPACITY UINT32_MAX
 
 /**
  * Data contained in the array data-structure
@@ -76,7 +70,7 @@ void* array_get_data(array head, uint32_t index)
 		{
 			printf(
 				"\nERROR: In function array_get_data(): "
-				"index %d was out of bounds!\n", 
+				"index %d out of bounds!\n", 
 				elem + 1
 			);
 			exit(INDEX_OUT_OF_BOUNDS_ERROR);
@@ -129,7 +123,7 @@ void* array_pop_front(array* head_ref)
 	{
 		printf(
 			"\nERROR: In function arrary_pop_front: "
-			"Attempted to pop front of an empty array!\n"
+			"Attempting to pop front of empty array!\n"
 		);
 		exit(EMPTY_LIST_ERROR);
 	}
@@ -169,7 +163,7 @@ void* array_pop_back(array* head_ref)
 	{
 		printf(
 			"\nERROR: In function array_pop_back: "
-			"Attempted to pop back of empty array!\n"
+			"Attempting to pop back of empty array!\n"
 		);
 		exit(EMPTY_LIST_ERROR);
 	}
@@ -190,22 +184,50 @@ void array_push_front(array* head_ref, void* data)
 		(*head_ref)->data = data;
 	} else
 	{
-		if (array_size(*head_ref) < MAX_CAPACITY)
+		array_init(&new);
+		new->data = data;
+		new->next = *head_ref;
+		*head_ref = new;
+	}
+}
+
+/**
+ * Removes the element at the provided index and returns it.
+ */
+void* array_pop_data(array* head_ref, uint32_t index)
+{
+	array next;	// A copy of the array starting from the second element.
+	void* data;	// The data to return.
+	uint32_t size = array_size(*head_ref); // The size of the array.
+
+	if (index < size)
+	{
+		for (int elem = 0; elem < size; elem++)
 		{
-			array_init(&new);
-			new->data = data;
-			new->next = *head_ref;
-			*head_ref = new;
-		}
-		else
-		{
-			printf(
-				"\nERROR: In function array_push_front(): "
-				"Attempted to push an element into a full array!\n"
-			);
-			exit(CAPACITY_OVERLOAD_ERROR);
+			if (elem == index)
+			{
+				data = (*head_ref)->data;
+				next  = (*head_ref)->next;
+				array_free_elem(head_ref);
+				*head_ref = next;
+				size = 0;	// Setting size to zero to break from the loop.
+			}
+			else
+			{
+				head_ref = &(*head_ref)->next;
+			}
 		}
 	}
+	else
+	{
+		printf(
+			"\nERROR: In function array_pop_data(): "
+			"index %d out of bounds!\n", 
+			index
+			);
+		exit(INDEX_OUT_OF_BOUNDS_ERROR);
+	}
+	return data;
 }
 
 /**
@@ -220,23 +242,12 @@ void array_push_back(array* head_ref, void* data)
 	}
 	else
 	{
-		if (array_size(*head_ref) < MAX_CAPACITY)
+		while ((*head_ref)->next != NULL)
 		{
-			while ((*head_ref)->next != NULL)
-			{
-				head_ref = &(*head_ref)->next;
-			}
-			array_init(&(*head_ref)->next);
-			(*head_ref)->next->data = data;
+			head_ref = &(*head_ref)->next;
 		}
-		else
-		{
-			printf(
-				"\nERROR: In function array_push_back(): "
-				"Attempted to push an element into a full array!\n"
-			);
-			exit(CAPACITY_OVERLOAD_ERROR);
-		}
+		array_init(&(*head_ref)->next);
+		(*head_ref)->next->data = data;
 	}
 }
 
