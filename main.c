@@ -4,7 +4,7 @@
  * Demonstrates the use of the array type.
  *
  * Author: Richard Gale
- * Version: 23rd August, 2022
+ * Version: 30th August, 2022
  */
 
 #include <stdio.h>
@@ -15,8 +15,8 @@ int main(int argc, char* argv[])
 {
     array storage;          // The array.
     char* data = "MyData";  // The data to store.
-    uint32_t num_elems;     // The number of elements of the data.
-    uint32_t elem;          // The index of the current element of the array.
+    uint64_t num_elems;     // The number of elements of the data.
+    uint64_t elem;          // The index of the current element of the array.
 
     // Initialising the array.
     array_init(&storage);
