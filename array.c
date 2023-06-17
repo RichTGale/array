@@ -1,13 +1,13 @@
 /**
  * array.c
  *
- * This file contains the internal data-structure and procedure definitions 
+ * This file contains the internal data-structure and function definitions 
  * for a singly-linked-list, 
  * This is an array that dynamically allocates and de-allocates memory as 
  * elements are added to it and removed from it.
  *
  * Author: Richard Gale
- * Version: 15th June, 2023
+ * Version: 17th June, 2023
  */
 
 #include "array.h"
@@ -33,7 +33,7 @@ struct array_data {
 };
 
 /**
- * This procedure initialises the array at the provided array pointer.
+ * This function initialises the array at the provided array pointer.
  */
 void array_init(array* ap)
 {
@@ -46,7 +46,7 @@ void array_init(array* ap)
 }
 
 /**
- * This procedure de-allocates the memory of the array at the 
+ * This function de-allocates the memory of the array at the 
  * provided array pointer.
  */
 void array_free_elem(array* ap)
@@ -56,7 +56,7 @@ void array_free_elem(array* ap)
 }
 
 /**
- * This procedure de-allocates the memory of the array at the 
+ * This function de-allocates the memory of the array at the 
  * provided array pointer and any arrays (elements) linked to it.
  */
 void array_free(array* ap)
@@ -74,7 +74,7 @@ void array_free(array* ap)
 }
 
 /**
- * This procedure returns a pointer to the data stored at the provided 
+ * This function returns a pointer to the data stored at the provided 
  * index in the provided array.
  * Once the data is returned, it should then be cast to the data-type
  * it was before it was placed in the array.
@@ -108,7 +108,7 @@ void* array_get_data(array a, uint64_t index)
 }
 
 /**
- * This procedure returns the number of elements in the provided array.
+ * This function returns the number of elements in the provided array.
  */
 uint64_t array_size(array a)
 {
@@ -119,7 +119,7 @@ uint64_t array_size(array a)
     size = 0;
 
     /* Determining if the array element (array head) that was supplied to
-     * this procedure contains data. */
+     * this function contains data. */
     if (a->data != NULL)
     {
         /* The array element (array head) contains data so we are
@@ -143,7 +143,7 @@ uint64_t array_size(array a)
 }
 
 /**
- * This Procedure removes the first element from the array at the array 
+ * This function removes the first element from the array at the array 
  * pointer provided to it and returns it.
  * Once the data is returned, it should then be cast to the data-type
  * it was before it was placed in the array.
@@ -171,7 +171,7 @@ void* array_pop_front(array* ap)
         /* Pointing the head at the second element. */ 
         *ap = next;
 
-        /* The array provided to this procedure may have contained only one
+        /* The array provided to this function may have contained only one
          * element. If this was the case, then we need to initialise
          * the element we just stored at the array head, which was previously
          * the uninitialised second element. */
@@ -183,7 +183,7 @@ void* array_pop_front(array* ap)
     }
     else
     {
-        /* The array passed to this procedure has a size of zero so we
+        /* The array passed to this function has a size of zero so we
          * are printing an error and exiting the program. */
         printf("\nERROR: In function arrary_pop_front: Attempting to pop " 
                                                 "front of empty array!\n");
@@ -191,12 +191,12 @@ void* array_pop_front(array* ap)
     }
 
     /* Returning the first element of the array that was passed to
-     * this procedure. */
+     * this function. */
     return front;
 }
 
 /**
- * This procedure removes the last element from the array at the array 
+ * This function removes the last element from the array at the array 
  * pointer provided to it and returns it.
  * Once the data is returned, it should then be cast to the data-type
  * it was before it was placed in the array.
@@ -235,7 +235,7 @@ void* array_pop_back(array* ap)
         }
         else
         {
-	        /* The array provided to this procedure may have contained only one
+	        /* The array provided to this function may have contained only one
 	         * element. If this was the case, then we need to initialise
 	         * the first element, because we just destroyed it. */
             array_init(ap);
@@ -251,27 +251,27 @@ void* array_pop_back(array* ap)
     }
 
     /* Returning the data that was stored in the last element of the array
-     * provided to this procedure. */
+     * provided to this function. */
     return back;
 }
 
 /**
- * This procedure removes the element from the array at the provided array 
- * pointer at the index provided to the procedure and returns it.
+ * This function removes the element from the array at the provided array 
+ * pointer at the index provided to the function and returns it.
  * Once the data is returned, it should then be cast to the data-type
  * it was before it was placed in the array.
  */
 void* array_pop_data(array* ap, uint64_t index)
 {
     /* A copy of the array starting from the element linked to the element
-     * at the index provided to this procedure. */
+     * at the index provided to this function. */
     array next;
 
     /* The data contained in the array element at the index provided to
-     * this procedure. */
+     * this function. */
     void* data;
 
-    /* The size of the array that was provided to this procedure. */
+    /* The size of the array that was provided to this function. */
     uint64_t size;
 
     /* The index of the current element of the array. */
@@ -280,7 +280,7 @@ void* array_pop_data(array* ap, uint64_t index)
     /* Getting the size of the array. */
     size = array_size(*ap);
     
-    /* Determining if index passed to this procedure is within the bounds
+    /* Determining if index passed to this function is within the bounds
      * of the array. */    
     if (index < size)
     {
@@ -314,7 +314,7 @@ void* array_pop_data(array* ap, uint64_t index)
     }
     else
     {
-        /* The index passed to this procedure was not within the bounds
+        /* The index passed to this function was not within the bounds
          * of the array, so we are printing an error message and exiting 
          * the program. */
         printf("\nERROR: In function array_pop_data(): index %d out "
@@ -327,7 +327,7 @@ void* array_pop_data(array* ap, uint64_t index)
 }
 
 /**
- * This procedure adds a new element to the beginning of the array at
+ * This function adds a new element to the beginning of the array at
  * the provided array pointer.
  */
 void array_push_front(array* ap, void* data)
@@ -375,7 +375,7 @@ void array_push_front(array* ap, void* data)
 }
 
 /**
- * This procedure adds a new element to the end of the array at the provided
+ * This function adds a new element to the end of the array at the provided
  * array pointer.
  */
 void array_push_back(array* ap, void* data)
@@ -419,7 +419,7 @@ void array_push_back(array* ap, void* data)
 }
 
 /**
- * This procedure replaces the data in the array element at the provided 
+ * This function replaces the data in the array element at the provided 
  * index of the array at the provided array reference.
  */
 void array_set_data(array* ap, uint64_t index, void* data)
@@ -436,7 +436,7 @@ void array_set_data(array* ap, uint64_t index, void* data)
         }
         else
         {
-            /* The index provided to the procedure is beyond the bounds
+            /* The index provided to the function is beyond the bounds
              * of the array, so we are printing an error message and exiting 
              * the program. */
             printf("\nERROR: In function array_set_data(): index %d "
